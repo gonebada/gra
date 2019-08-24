@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Play the game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style2.css">
+</head>
+
+<body>
+    <div class="jumbotron">
+        <div class="row justify-content-center">
+            <h4 class="mr-4 mt-2"> Your move:</h4>
+            <div class="col col-md-auto">
+                <button class="btn btn-danger playerMove player-move" id="scissors" data-move="Scissors">
+                    <i class="fas fa-hand-scissors"></i>
+                </button>
+                Scissors
+                <button class="btn btn-dark playerMove player-move" id="rock" data-move="Rock">
+                    <i class="far fa-hand-rock"></i>
+                </button>
+                HandRock
+                <button class="btn btn-primary playerMove player-move" id="paper" data-move="Paper">
+                    <i class="fas fa-hand-paper"></i> </button>
+                Hand-paper
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row justify-content-md-center mt-4">
+            <div class="col col-lg-3 output">
+                <button type="button" class="btn btn-primary mr-4" id="newGame">
+                    New game
+                </button>
+                <button type="button" class="btn btn-dark ml-4" id="restart">
+                    Reset Game
+                </button>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-4">
+
+            <div class="col col-lg-3 output">
+                <div id="result"></div>
+            </div>
+            <div class="col col-lg-3 output">
+                <div class="container" id="modal"></div>
+            </div>
+        </div>
+        <a href="#" class="show-modal">Show modal</a>
+    </div>
+    <div class="overlay" id="modal-overlay">
+        <div class="modal">
+            <a href="#" class="close">x</a>
+            <header>Lorem ipsum</header>
+            <div class="content">
+                <p>Modal test</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/8aae2ce4b1.js">
+    </script>
+    <script src="js/gra.js"></script>
+</body>
+</html>
