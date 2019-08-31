@@ -1,13 +1,40 @@
+//  Get modal element
+const modal = document.getElementById('resultModal');
+// Get close button
+const closeBtn = document.getElementsByClassName('closeBtn')[0];
+const modalBodyContent = document.getElementById('modalBodyContent');
+//Listen for open click
+//Listen for oustide click
+window.addEventListener('click', clickOutside);
+//Listen for close click
+closeBtn.addEventListener('click', closeModal);
+
+// function to open modal
+function openModal() {
+    modal.style.display = 'block';
+}
+// function to open modal
+function closeModal() {
+    modal.style.display = 'none';
+}
+// function to close modal if outside click
+function clickOutside(e) {
+    if (e.target == modal) {
+        modal.style.display = 'none';
+    }
+}
+
+
 //  POŁĄCZENIA Z HTML
 var buttonScissors = document.getElementById('scissors');
 var buttonRock = document.getElementById('rock');
 var buttonPaper = document.getElementById('paper');
 var newGameButton = document.getElementById('newGame');
 var restartGameButton = document.getElementById('restart');
+var resultBasic = document.getElementById('resultBasic');
 var result = document.getElementById('result');
 //var playerScore = document.getElementById('user-score');
 //var computerScore = document.getElementById('pc-score');
-// TODO: przerobic calosc na taki obiekt gameParams
 var gameParams = {
     playerScore: 0,
     computerScore: 0,
@@ -40,7 +67,7 @@ restartGameButton.addEventListener('click', function () {
 })
 
 function resetGame() {
-    result.innerHTML = ' ';
+    resultBasic.innerHTML = ' ';
     toggleButtonDisabled(true);
 }
 
@@ -76,16 +103,23 @@ function playerMove(userChoice) {
         // FUNKCJA PODAJĄCA OSOBĘ WYGRANĄ
         showResult(userChoice, computerChoice);
     } else if (gameParams.computerScore == gameParams.roundsToWin) {
-        result.innerHTML = 'The winnner is Computer : ' + gameParams.computerScore + ':' + gameParams.playerScore;
+        modal.style.display = 'block';
+        result.innerHTML = 'The winnner is Computer - ' + gameParams.computerScore + ':' + gameParams.playerScore;
         toggleButtonDisabled(true);
         showTable();
     } else {
-        result.innerHTML = 'The winner is Player :' + gameParams.playerScore + ':' + gameParams.computerScore;
+        modal.style.display = 'block';
+        result.innerHTML = 'The winner is Player -' + gameParams.playerScore + ':' + gameParams.computerScore;
         toggleButtonDisabled(true);
         showTable();
     }
 }
 
+///testowanie do modala
+function showModal() {
+    modalBodyContent.innerHTML = 'The winner is Player :';
+    modal.style.display = 'block';
+}
 
 
 // FUNKCJA losowania
@@ -100,18 +134,18 @@ var showResult = function (userChoice, computerChoice) {
     var whoWon;
     if (computerChoice === userChoice) {
         whoWon = 'draw';
-        result.innerHTML += 'DRAW! You played ' + userChoice + '<br>' + 'Computer got ' + computerChoice + '<br>'
+        resultBasic.innerHTML += 'DRAW! You played ' + userChoice + '<br>' + 'Computer got ' + computerChoice + '<br>'
     } else if (
         computerChoice === 'Rock' && userChoice === 'Scissors' ||
         computerChoice === 'Paper' && userChoice === 'Rock' ||
         computerChoice === 'Scissors' && userChoice === 'Paper'
     ) {
-        whoWon = 'Computer is the winner';
-        result.innerHTML += 'You LOST! You played ' + userChoice + '<br>' + 'Computer got ' + computerChoice + '<br>';
+        whoWon = 'Computer scored point';
+        resultBasic.innerHTML += 'You LOST! You played ' + userChoice + '<br>' + 'Computer got ' + computerChoice + '<br>';
         gameParams.computerScore += 1;
     } else {
-        whoWon = 'Player is the winner';
-        result.innerHTML += 'You WON! You played ' + userChoice + '<br>' + 'Computer got ' + computerChoice + '<br>';
+        whoWon = 'Player scored point';
+        resultBasic.innerHTML += 'You WON! You played ' + userChoice + '<br>' + 'Computer got ' + computerChoice + '<br>';
         gameParams.playerScore += 1;
     }
     gameParams.currentRound += 1;
@@ -143,7 +177,7 @@ function showModal() {
 
 function showTable() {
     const table = createScoreTable();
-    const tableContainer = document.getElementById('modal');
+    const tableContainer = document.getElementById('modal-table');
     tableContainer.innerHTML = "";
     tableContainer.appendChild(table);
 }
@@ -179,65 +213,3 @@ function createScoreTable() {
     table.appendChild(tbody);
     return table;
 }
-
-
-
-
-
-
-
-
-///Show Modal
-(function(){ 
-	/* W kodzie HTML i CSS dodaliśmy style dla prostego modala, który będzie zawsze wyśrodkowany w oknie. 
-	
-	Teraz wystarczy napisać funkcję otwierającą modal:
-	*/
-	
-	var showModal = function(event){
-		event.preventDefault();
-		document.querySelector('#modal-overlay').classList.add('show');
-	};
-	
-	// Mimo, że obecnie mamy tylko jeden link, stosujemy kod dla wielu linków. W ten sposób nie będzie trzeba go zmieniać, kiedy zechcemy mieć więcej linków lub guzików otwierających modale
-	
-	var modalLinks = document.querySelectorAll('.show-modal');
-	
-	for(var i = 0; i < modalLinks.length; i++){
-		modalLinks[i].addEventListener('click', showModal);
-	}
-	
-	// Dodajemy też funkcję zamykającą modal, oraz przywiązujemy ją do kliknięć na elemencie z klasą "close". 
-
-	var hideModal = function(event){
-		event.preventDefault();
-		document.querySelector('#modal-overlay').classList.remove('show');
-	};
-	
-	var closeButtons = document.querySelectorAll('.modal .close');
-	
-	for(var i = 0; i < closeButtons.length; i++){
-		closeButtons[i].addEventListener('click', hideModal);
-	}
-	
-	// Dobrą praktyką jest również umożliwianie zamykania modala poprzez kliknięcie w overlay. 
-	
-	document.querySelector('#modal-overlay').addEventListener('click', hideModal);
-	
-	// Musimy jednak pamiętać, aby zablokować propagację kliknięć z samego modala - inaczej każde kliknięcie wewnątrz modala również zamykałoby go. 
-	
-	var modals = document.querySelectorAll('.modal');
-	
-	for(var i = 0; i < modals.length; i++){
-		modals[i].addEventListener('click', function(event){
-			event.stopPropagation();
-		});
-	}
-	
-	/* I to wszystko - mamy już działający modal! 
-	
-	ĆWICZENIE: 
-	Zmień funkcję showModal tak, aby w momencie wyświetlania była zmieniana treść nagłówka na dowolną inną, np. "Modal header". 
-	*/
-	
-})(); 
