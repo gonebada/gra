@@ -1,7 +1,7 @@
 //  Get modal element
 const modal = document.getElementById('resultModal');
 // Get close button
-const closeBtn = document.getElementsByClassName('closeBtn')[0];
+const closeBtn = document.getElementById('closeBtn');
 const modalBodyContent = document.getElementById('modalBodyContent');
 //Listen for open click
 //Listen for oustide click
@@ -59,34 +59,18 @@ newGameButton.addEventListener('click', function () {
 
 restartGameButton.addEventListener('click', function () {
     resetGame();
-    gameParams.playerScore = 0;
-    gameParams.computerScore = 0;
-    gameParams.roundsToWin = 0;
-    gameParams.currentRound = 0;
-    progress = [];
 })
 
 function resetGame() {
     resultBasic.innerHTML = ' ';
     toggleButtonDisabled(true);
+    gameParams.playerScore = 0;
+    gameParams.computerScore = 0;
+    gameParams.roundsToWin = 0;
+    gameParams.currentRound = 0;
+    progress = [];
+
 }
-
-// buttonScissors.addEventListener('click', function () {
-//     playerMove('Scissors');
-// });
-// buttonRock.addEventListener('click', function () {
-//     playerMove('Rock');
-// });
-// buttonPaper.addEventListener('click', function () {
-//     playerMove('Paper');
-// });
-
-//for (var i = 0; i < buttonsMove.length; i++) {
-//    var currentMove = buttonsMove[i].getAttribute('data-move');
-//    buttonsMove[i].addEventListener('click', function () {
-//        playerMove(currentMove);
-//    });
-//}
 
 // FUNKCJA PLAYER CHOICE
 document.querySelectorAll('.player-move').forEach(function (element) {
@@ -96,7 +80,6 @@ document.querySelectorAll('.player-move').forEach(function (element) {
 });
 
 function playerMove(userChoice) {
-    var winner;
     var computerChoice = getRandomNumber();
     if (gameParams.computerScore < gameParams.roundsToWin &&
         gameParams.playerScore < gameParams.roundsToWin) {
@@ -124,9 +107,9 @@ function showModal() {
 
 // FUNKCJA losowania
 function getRandomNumber() {
-    var computerChoice = ['Paper', 'Rock', 'Scissors']
-    var getRandomNumber = Math.floor(Math.random() * 3); //+ min;
-    return computerChoice[getRandomNumber];
+    var possibleChoices = ['Paper', 'Rock', 'Scissors']
+    var randomNumber = Math.floor(Math.random() * 3); //+ min;
+    return possibleChoices[randomNumber];
 }
 
 //FUNKCJA do komunikatu
@@ -155,7 +138,6 @@ var showResult = function (userChoice, computerChoice) {
         playerScore: gameParams.playerScore,
         whoWon: whoWon
     });
-    console.log(gameParams);
 }
 
 var toggleButtonDisabled = function (flag) {
